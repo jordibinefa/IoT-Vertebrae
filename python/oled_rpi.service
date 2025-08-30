@@ -1,0 +1,32 @@
+# Contents of /etc/systemd/system/ 
+# * Copieu aquest arxiu a /etc/systemd/system/
+# sudo cp oled_rpi.service /etc/systemd/system/ 
+# La ruta absoluta serà: /etc/systemd/system/oled_rpi.service
+# 
+# * Recarregueu els serveis:
+# sudo systemctl daemon-reload
+# 
+# * Feu que el servei s'executi quan la Raspberry Pi es posi en marxa. Degut a l'opció Wants d'aquest arxiu, es farà l'execució (de l'opció ExecStart) un cop s'hagi aconseguit una IP:
+# sudo systemctl enable oled_rpi.service
+# 
+# * Per a posar en marxa el servei, sense haver de reiniciar la Raspberry:
+# sudo systemctl start oled_rpi.service
+# 
+# * Per a aturar el servei:
+# sudo systemctl stop oled_rpi.service
+# 
+# * Per a que el servei no s'engegui al reiniciar la Raspberry:
+# sudo systemctl disable oled_rpi.service
+
+[Unit]
+Description=Oled RPi Service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+# Restart=always
+ExecStart=/usr/bin/python /home/pi/oled_rpi.py
+
+[Install]
+WantedBy=multi-user.target

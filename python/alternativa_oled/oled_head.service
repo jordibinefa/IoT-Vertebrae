@@ -1,0 +1,33 @@
+# Contents of /etc/systemd/system/ 
+# * Copieu aquest arxiu a /etc/systemd/system/
+# sudo cp oled_head.service /etc/systemd/system/ 
+# La ruta absoluta serà: /etc/systemd/system/oled_head.service
+# 
+# * Recarregueu els serveis:
+# sudo systemctl daemon-reload
+# 
+# * Feu que el servei s'executi quan la Raspberry Pi es posi en marxa. Degut a l'opció Wants d'aquest arxiu, es farà l'execució (de l'opció ExecStart) un cop s'hagi aconseguit una IP:
+# sudo systemctl enable oled_head.service
+# 
+# * Per a posar en marxa el servei, sense haver de reiniciar la Raspberry:
+# sudo systemctl start oled_head.service
+# 
+# * Per a aturar el servei:
+# sudo systemctl stop oled_head.service
+# 
+# * Per a que el servei no s'engegui al reiniciar la Raspberry:
+# sudo systemctl disable oled_head.service
+
+[Unit]
+Description=Oled IoT-Vertebrae Head Service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+# Restart=always
+ExecStart=/home/pi/codis/oled-screen/venv/bin/python /home/pi/codis/luma.examples/examples/sys_info_extended.py
+
+[Install]
+WantedBy=multi-user.target
+
