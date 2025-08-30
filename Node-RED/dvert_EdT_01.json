@@ -1,0 +1,1591 @@
+[
+    {
+        "id": "cf6d18f05c591beb",
+        "type": "tab",
+        "label": "EdT00 - IoT-Vertebrae",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a67cc06cef1a228c",
+        "type": "mqtt out",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a703608ae0d8696c",
+        "x": 630,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "54f1f8d9dbcff67d",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0000",
+        "payloadType": "str",
+        "x": 90,
+        "y": 240,
+        "wires": [
+            [
+                "a54a985bcb72938f"
+            ]
+        ]
+    },
+    {
+        "id": "a54a985bcb72938f",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "bin to dec",
+        "func": "msg.payload = parseInt(msg.payload,2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 240,
+        "wires": [
+            [
+                "adf2416de5e273ca",
+                "ce112e38c88f92cf"
+            ]
+        ]
+    },
+    {
+        "id": "f6ec2d999a7128d9",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "adf2416de5e273ca",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "set digVertAddr00",
+        "func": "msg.payload = 800 + msg.payload;\nflow.set(\"digVertAddr00\",msg.payload);\nvar canAddr = msg.payload.toString(16);\nvar i2cAddr = (msg.payload & 0xFF).toString(16);\nmsg.payload = \"CAN digVertAddr00: 0x\"+canAddr+\", I2C digVertAddr00: 0x\"+i2cAddr;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "f6ec2d999a7128d9"
+            ]
+        ]
+    },
+    {
+        "id": "8c744d1783ed60d1",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "00000101",
+        "payloadType": "str",
+        "x": 100,
+        "y": 340,
+        "wires": [
+            [
+                "8000a3dbb4c9ea09"
+            ]
+        ]
+    },
+    {
+        "id": "8000a3dbb4c9ea09",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "bin to dec",
+        "func": "msg.payload = parseInt(msg.payload,2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 380,
+        "wires": [
+            [
+                "f3fd070688f71333"
+            ]
+        ]
+    },
+    {
+        "id": "f3fd070688f71333",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "set digRibA00",
+        "func": "flow.set(\"digRibA00\",msg.payload);\nvar decValue = msg.payload.toString(10);\nvar hexValue = msg.payload.toString(16);\nmsg.payload = \"digRibA00: 0x\"+hexValue+\", i en base 10: \"+decValue;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 380,
+        "wires": [
+            [
+                "e7eb665dd8329c54"
+            ]
+        ]
+    },
+    {
+        "id": "2d5663eec535b08f",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e7eb665dd8329c54",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "CAN JSON (digRibA00)",
+        "func": "var json = {};\njson.ID = flow.get(\"digVertAddr00\");\njson.extd = 0;\njson.rtr = 0;\njson.n = 2;\njson.msg = [2,flow.get(\"digRibA00\")];\n// json.msg = [18,flow.get(\"digRibB00\")];\n\nvar MAC = flow.get(\"MAC00\");\nvar tema = \"/\"+MAC+\"/canJsonIn\"; // /C8F09EB1DFAC/canJsonIn\n\nreturn {\"payload\": json,\"topic\":tema};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "21d516aaec6f5d6c"
+            ]
+        ]
+    },
+    {
+        "id": "82aa57525b7efccd",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "21d516aaec6f5d6c",
+        "type": "json",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 490,
+        "y": 480,
+        "wires": [
+            [
+                "a67cc06cef1a228c",
+                "82aa57525b7efccd"
+            ]
+        ]
+    },
+    {
+        "id": "12af4bc4d8bb39cf",
+        "type": "mqtt in",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a703608ae0d8696c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 210,
+        "y": 700,
+        "wires": [
+            [
+                "f6184ed65c2cc8c8",
+                "7bde8a447eee8e84"
+            ]
+        ]
+    },
+    {
+        "id": "6716f31df10dd098",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "edaf183b0e805f70",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "00000000",
+        "payloadType": "str",
+        "x": 100,
+        "y": 420,
+        "wires": [
+            [
+                "8000a3dbb4c9ea09"
+            ]
+        ]
+    },
+    {
+        "id": "d27461a936f7a985",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "C8F09EB1DFAC",
+        "payloadType": "str",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "7210758f55d4843e"
+            ]
+        ]
+    },
+    {
+        "id": "7210758f55d4843e",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "set MAC00",
+        "func": "flow.set(\"MAC00\",msg.payload);\n// { Per si es vol fer una subscripció dinàmica\nvar tema = \"/\"+msg.payload+\"/canJsonIn\";\nmsg.topic = tema;\nmsg.payload = \"\";\nmsg.action = \"subscribe\";\n// }\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 80,
+        "wires": [
+            [
+                "da7f61115c397886"
+            ]
+        ]
+    },
+    {
+        "id": "da7f61115c397886",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "926b96fbd52fd031",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Subscripció dinàmica",
+        "info": "Cal msg.action = \"subscribe\" i un msg.topic\nMés informació sobre les subscripcions dinàmiques:\nhttps://stevesnoderedguide.com/mqtt-dynamic-connections\n",
+        "x": 160,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "62b68f6f799a300a",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Escriptura dvert: 0000 costella: A",
+        "info": "",
+        "x": 150,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "4a0eaca18122bf97",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Lectura dvert: 0000 costella: B",
+        "info": "",
+        "x": 140,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "c5f90201621cc660",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Establiment de MAC del cap i adreça dvert",
+        "info": "",
+        "x": 180,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "1c469fd43a9713c6",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Lectura",
+        "payloadType": "str",
+        "x": 90,
+        "y": 620,
+        "wires": [
+            [
+                "058dbddad7d8e138"
+            ]
+        ]
+    },
+    {
+        "id": "058dbddad7d8e138",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "din dvert: 0000 costella: B",
+        "func": "var localJson = {};\nlocalJson.ID = flow.get(\"digVertAddr00\");\nlocalJson.extd = 0;\nlocalJson.rtr = 1; // Es demana resposta al CAN\nlocalJson.n = 5; // Es demana 5 bytes de reposta\nlocalJson.msg = [5]; // Qualsevol valor\n\nvar MAC = flow.get(\"MAC00\");\nvar temaPregunta = \"/\"+MAC+\"/canJsonIn\";\nmsg.topic = temaPregunta;\nmsg.payload = localJson;\n\nvar msg2 = {};\nvar temaResposta = \"/\"+MAC+\"/canJsonOut\";\nmsg2.topic = temaResposta;\nmsg2.action = \"subscribe\";\n\nreturn [msg,msg2];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 620,
+        "wires": [
+            [
+                "21d516aaec6f5d6c"
+            ],
+            [
+                "12af4bc4d8bb39cf"
+            ]
+        ]
+    },
+    {
+        "id": "f6184ed65c2cc8c8",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "Cancel·lació de subscripció",
+        "func": "var MAC = flow.get(\"MAC00\");\nvar temaResposta = \"/\"+MAC+\"/canJsonOut\";\nmsg.topic = temaResposta;\nmsg.action = \"unsubscribe\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 780,
+        "wires": [
+            [
+                "12af4bc4d8bb39cf"
+            ]
+        ]
+    },
+    {
+        "id": "7bde8a447eee8e84",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "lectura costella dig B",
+        "func": "var vector = msg.payload.msg;\n// msg.payload = vector[3]; // Costat A\nmsg.payload = vector[4]; // Costat B\n// Si és costella de lectura s'ha de negar el valor llegit\n// Si és costella d'escriptura no s'ha de negar el valor llegit\nmsg.payload = (0xFF & ~msg.payload).toString(2).padStart(8,'0');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 700,
+        "wires": [
+            [
+                "6716f31df10dd098"
+            ]
+        ]
+    },
+    {
+        "id": "c500854f529ad702",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "11111111",
+        "payloadType": "str",
+        "x": 100,
+        "y": 380,
+        "wires": [
+            [
+                "8000a3dbb4c9ea09"
+            ]
+        ]
+    },
+    {
+        "id": "ce112e38c88f92cf",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "set anVertAddr00",
+        "func": "msg.payload = 16 + msg.payload;\nflow.set(\"anVertAddr00\",msg.payload);\nvar canAddr = msg.payload.toString(16);\nvar i2cAddr = (msg.payload & 0xFF).toString(16);\nmsg.payload = \"CAN anVertAddr00: 0x\"+canAddr+\", I2C anVertAddr00: 0x\"+i2cAddr;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 280,
+        "wires": [
+            [
+                "f6ec2d999a7128d9"
+            ]
+        ]
+    },
+    {
+        "id": "27637818456f1fa2",
+        "type": "mqtt in",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a703608ae0d8696c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 110,
+        "y": 960,
+        "wires": [
+            [
+                "6100b4eb9ad692c5",
+                "f7aa237f9de22a63"
+            ]
+        ]
+    },
+    {
+        "id": "79bf15ac3b752ca3",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Subscripció dinàmica",
+        "info": "Cal msg.action = \"subscribe\" i un msg.topic\nMés informació sobre les subscripcions dinàmiques:\nhttps://stevesnoderedguide.com/mqtt-dynamic-connections\n",
+        "x": 140,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "728018865c767b52",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Lectura avert: 0000 costella: A",
+        "info": "",
+        "x": 140,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "94b55ed207250939",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Lectura",
+        "payloadType": "str",
+        "x": 90,
+        "y": 880,
+        "wires": [
+            [
+                "e2d3fe82b59f9edc"
+            ]
+        ]
+    },
+    {
+        "id": "e2d3fe82b59f9edc",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "ain avert: 0000 costella: A",
+        "func": "var localJson = {};\nlocalJson.ID = flow.get(\"anVertAddr00\"); // Costella A\n// localJson.ID = flow.get(\"anVertAddr00\") + 256; // Costella B\nlocalJson.extd = 0;\nlocalJson.rtr = 1; // Es demana resposta al CAN\nlocalJson.n = 8; // Es demana 8 bytes de reposta\nlocalJson.msg = [7]; // Qualsevol valor\n\nvar MAC = flow.get(\"MAC00\");\nvar temaPregunta = \"/\"+MAC+\"/canJsonIn\";\nmsg.topic = temaPregunta;\nmsg.payload = localJson;\n\nvar msg2 = {};\nvar temaResposta = \"/\"+MAC+\"/canJsonOut\";\nmsg2.topic = temaResposta;\nmsg2.action = \"subscribe\";\n\nreturn [msg,msg2];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 880,
+        "wires": [
+            [
+                "21d516aaec6f5d6c"
+            ],
+            [
+                "27637818456f1fa2"
+            ]
+        ]
+    },
+    {
+        "id": "6100b4eb9ad692c5",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "Cancel·lació de subscripció",
+        "func": "var MAC = flow.get(\"MAC00\");\nvar temaResposta = \"/\"+MAC+\"/canJsonOut\";\nmsg.topic = temaResposta;\nmsg.action = \"unsubscribe\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 1040,
+        "wires": [
+            [
+                "27637818456f1fa2"
+            ]
+        ]
+    },
+    {
+        "id": "f7aa237f9de22a63",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "lectura costella an [msg,ch1,ch2,ch3,ch4]",
+        "func": "function rawCh(nCh, arr) {\n    var pos = (nCh * 2) - 2;\n    var rawCh = arr[pos] * 256 + arr[pos + 1];\n    return rawCh;\n}\n\nfunction ain2v(rawV){\n    return Math.round((((20*rawV)/26624)-10)*100)/100;\n}\n\nvar vector = msg.payload.msg;\nvar vCh1 = ain2v(rawCh(1, vector));\nvar vCh2 = ain2v(rawCh(2, vector));\nvar vCh3 = ain2v(rawCh(3, vector));\nvar vCh4 = ain2v(rawCh(4, vector));\n\nreturn [{ \"payload\": vector }, { \"payload\": vCh1 }, { \"payload\": vCh2 }, { \"payload\": vCh3 }, { \"payload\": vCh4 }];",
+        "outputs": 5,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 960,
+        "wires": [
+            [],
+            [
+                "da37a146d16b43ca"
+            ],
+            [
+                "92db7d630192edf0"
+            ],
+            [
+                "a27fd1a536912fd1"
+            ],
+            [
+                "ccc8b19d6f17992d"
+            ]
+        ]
+    },
+    {
+        "id": "da37a146d16b43ca",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "92db7d630192edf0",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "a27fd1a536912fd1",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "ccc8b19d6f17992d",
+        "type": "debug",
+        "z": "cf6d18f05c591beb",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "d33a7e4c3bd7a54d",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2.2",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1140,
+        "wires": [
+            [
+                "8fa736f255328b3f"
+            ]
+        ]
+    },
+    {
+        "id": "4b09a86f1543afa5",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "6.6",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1220,
+        "wires": [
+            [
+                "8fa736f255328b3f"
+            ]
+        ]
+    },
+    {
+        "id": "09b1c499058d3bee",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Escriptura avert: 0000 costella: B",
+        "info": "",
+        "x": 150,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "c233d0e004b0ad62",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "3.3",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1180,
+        "wires": [
+            [
+                "8fa736f255328b3f"
+            ]
+        ]
+    },
+    {
+        "id": "8a13729400b3d69a",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "7.7",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1260,
+        "wires": [
+            [
+                "8fa736f255328b3f"
+            ]
+        ]
+    },
+    {
+        "id": "8fa736f255328b3f",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "CAN JSON (anRibB00 ch1)",
+        "func": "function volt2bin(volt){\n    var vRet = Math.round((volt*4095)/10);\n\n    if(vRet < 0){\n        vRet = 0;\n    }\n    if(vRet > 4095){\n        vRet = 4095;\n    }\n    return vRet; \n}\n\nfunction nCh(ch){\n    var vRet;\n\n    switch(ch){\n        case 1: vRet = 0; break;\n        case 2: vRet = 32; break;\n        case 3: vRet = 64; break;\n        case 4: vRet = 96; break;\n        default: vRet = 0;\n    }\n    return vRet;\n}\n\nfunction msg0(side,chan){\n    if(side == 'A'){\n        return 2 + nCh(chan);\n    }\n    return 18 + nCh(chan);\n}\n\nvar json = {};\nvar addr = flow.get(\"anVertAddr00\");\nvar vDAC =volt2bin(msg.payload);\n\nif(vDAC < 0){\n    vDAC = 0;\n}\nif(vDAC > 4095){\n    vDAC = 4095;\n}\njson.ID = addr + 784 - 16;\njson.extd = 0;\njson.rtr = 0;\njson.n = 3;\n// B side ch1\njson.msg = [msg0('B',1),Math.floor(vDAC/256),vDAC%256];\n// B side ch2\n// json.msg = [msg0('B',2),Math.floor(vDAC/256),vDAC%256];\n// B side ch3\n// json.msg = [msg0('B',3),Math.floor(vDAC/256),vDAC%256];\n// B side ch4\n// json.msg = [msg0('B',4),Math.floor(vDAC/256),vDAC%256];\n\nvar MAC = flow.get(\"MAC00\");\nvar tema = \"/\"+MAC+\"/canJsonIn\";\n\nreturn {\"payload\": json,\"topic\": tema};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1200,
+        "wires": [
+            [
+                "21d516aaec6f5d6c"
+            ]
+        ]
+    },
+    {
+        "id": "3b211fb51d393686",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2.2",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1300,
+        "wires": [
+            [
+                "e90ef43d544dafab"
+            ]
+        ]
+    },
+    {
+        "id": "d205deb4dd633ed2",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "6.6",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1380,
+        "wires": [
+            [
+                "e90ef43d544dafab"
+            ]
+        ]
+    },
+    {
+        "id": "900fcbc53f551d55",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "3.3",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1340,
+        "wires": [
+            [
+                "e90ef43d544dafab"
+            ]
+        ]
+    },
+    {
+        "id": "7da951e9c757d326",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "7.7",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1420,
+        "wires": [
+            [
+                "e90ef43d544dafab"
+            ]
+        ]
+    },
+    {
+        "id": "e90ef43d544dafab",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "CAN JSON (anRibB00 ch2)",
+        "func": "function volt2bin(volt){\n    var vRet = Math.round((volt*4095)/10);\n\n    if(vRet < 0){\n        vRet = 0;\n    }\n    if(vRet > 4095){\n        vRet = 4095;\n    }\n    return vRet; \n}\n\nfunction nCh(ch){\n    var vRet;\n\n    switch(ch){\n        case 1: vRet = 0; break;\n        case 2: vRet = 32; break;\n        case 3: vRet = 64; break;\n        case 4: vRet = 96; break;\n        default: vRet = 0;\n    }\n    return vRet;\n}\n\nfunction msg0(side,chan){\n    if(side == 'A'){\n        return 2 + nCh(chan);\n    }\n    return 18 + nCh(chan);\n}\n\nvar json = {};\nvar addr = flow.get(\"anVertAddr00\");\nvar vDAC =volt2bin(msg.payload);\n\nif(vDAC < 0){\n    vDAC = 0;\n}\nif(vDAC > 4095){\n    vDAC = 4095;\n}\njson.ID = addr + 784 - 16;\njson.extd = 0;\njson.rtr = 0;\njson.n = 3;\n// B side ch1\n// json.msg = [msg0('B',1),Math.floor(vDAC/256),vDAC%256];\n// B side ch2\njson.msg = [msg0('B',2),Math.floor(vDAC/256),vDAC%256];\n// B side ch3\n// json.msg = [msg0('B',3),Math.floor(vDAC/256),vDAC%256];\n// B side ch4\n// json.msg = [msg0('B',4),Math.floor(vDAC/256),vDAC%256];\n\nvar MAC = flow.get(\"MAC00\");\nvar tema = \"/\"+MAC+\"/canJsonIn\";\n\nreturn {\"payload\": json,\"topic\": tema};\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1360,
+        "wires": [
+            [
+                "21d516aaec6f5d6c"
+            ]
+        ]
+    },
+    {
+        "id": "46f337d67e85904f",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2.2",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1460,
+        "wires": [
+            [
+                "612e7e90c0141f02"
+            ]
+        ]
+    },
+    {
+        "id": "54576f433be30888",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "6.6",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1540,
+        "wires": [
+            [
+                "612e7e90c0141f02"
+            ]
+        ]
+    },
+    {
+        "id": "5dd3b4e2df74192f",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "3.3",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1500,
+        "wires": [
+            [
+                "612e7e90c0141f02"
+            ]
+        ]
+    },
+    {
+        "id": "8a393b2b640396b4",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "7.7",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1580,
+        "wires": [
+            [
+                "612e7e90c0141f02"
+            ]
+        ]
+    },
+    {
+        "id": "612e7e90c0141f02",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "CAN JSON (anRibB00 ch3)",
+        "func": "function volt2bin(volt){\n    var vRet = Math.round((volt*4095)/10);\n\n    if(vRet < 0){\n        vRet = 0;\n    }\n    if(vRet > 4095){\n        vRet = 4095;\n    }\n    return vRet; \n}\n\nfunction nCh(ch){\n    var vRet;\n\n    switch(ch){\n        case 1: vRet = 0; break;\n        case 2: vRet = 32; break;\n        case 3: vRet = 64; break;\n        case 4: vRet = 96; break;\n        default: vRet = 0;\n    }\n    return vRet;\n}\n\nfunction msg0(side,chan){\n    if(side == 'A'){\n        return 2 + nCh(chan);\n    }\n    return 18 + nCh(chan);\n}\n\nvar json = {};\nvar addr = flow.get(\"anVertAddr00\");\nvar vDAC =volt2bin(msg.payload);\n\nif(vDAC < 0){\n    vDAC = 0;\n}\nif(vDAC > 4095){\n    vDAC = 4095;\n}\njson.ID = addr + 784 - 16;\njson.extd = 0;\njson.rtr = 0;\njson.n = 3;\n// B side ch1\n// json.msg = [msg0('B',1),Math.floor(vDAC/256),vDAC%256];\n// B side ch2\n// json.msg = [msg0('B',2),Math.floor(vDAC/256),vDAC%256];\n// B side ch3\njson.msg = [msg0('B',3),Math.floor(vDAC/256),vDAC%256];\n// B side ch4\n// json.msg = [msg0('B',4),Math.floor(vDAC/256),vDAC%256];\n\nvar MAC = flow.get(\"MAC00\");\nvar tema = \"/\"+MAC+\"/canJsonIn\";\n\nreturn {\"payload\": json,\"topic\": tema};\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1520,
+        "wires": [
+            [
+                "21d516aaec6f5d6c"
+            ]
+        ]
+    },
+    {
+        "id": "d77e3beb01a29c01",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2.2",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1620,
+        "wires": [
+            [
+                "ccba3c8f3b195c9a"
+            ]
+        ]
+    },
+    {
+        "id": "4426253001612aeb",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "6.6",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1700,
+        "wires": [
+            [
+                "ccba3c8f3b195c9a"
+            ]
+        ]
+    },
+    {
+        "id": "cda0370c46aa35be",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "3.3",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1660,
+        "wires": [
+            [
+                "ccba3c8f3b195c9a"
+            ]
+        ]
+    },
+    {
+        "id": "16d1c84b856a6496",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "7.7",
+        "payloadType": "str",
+        "x": 90,
+        "y": 1740,
+        "wires": [
+            [
+                "ccba3c8f3b195c9a"
+            ]
+        ]
+    },
+    {
+        "id": "ccba3c8f3b195c9a",
+        "type": "function",
+        "z": "cf6d18f05c591beb",
+        "name": "CAN JSON (anRibB00 ch4)",
+        "func": "function volt2bin(volt){\n    var vRet = Math.round((volt*4095)/10);\n\n    if(vRet < 0){\n        vRet = 0;\n    }\n    if(vRet > 4095){\n        vRet = 4095;\n    }\n    return vRet; \n}\n\nfunction nCh(ch){\n    var vRet;\n\n    switch(ch){\n        case 1: vRet = 0; break;\n        case 2: vRet = 32; break;\n        case 3: vRet = 64; break;\n        case 4: vRet = 96; break;\n        default: vRet = 0;\n    }\n    return vRet;\n}\n\nfunction msg0(side,chan){\n    if(side == 'A'){\n        return 2 + nCh(chan);\n    }\n    return 18 + nCh(chan);\n}\n\nvar json = {};\nvar addr = flow.get(\"anVertAddr00\");\nvar vDAC =volt2bin(msg.payload);\n\nif(vDAC < 0){\n    vDAC = 0;\n}\nif(vDAC > 4095){\n    vDAC = 4095;\n}\njson.ID = addr + 784 - 16;\njson.extd = 0;\njson.rtr = 0;\njson.n = 3;\n// B side ch1\n// json.msg = [msg0('B',1),Math.floor(vDAC/256),vDAC%256];\n// B side ch2\n// json.msg = [msg0('B',2),Math.floor(vDAC/256),vDAC%256];\n// B side ch3\n// json.msg = [msg0('B',3),Math.floor(vDAC/256),vDAC%256];\n// B side ch4\njson.msg = [msg0('B',4),Math.floor(vDAC/256),vDAC%256];\n\nvar MAC = flow.get(\"MAC00\");\nvar tema = \"/\"+MAC+\"/canJsonIn\";\n\nreturn {\"payload\": json,\"topic\": tema};\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1680,
+        "wires": [
+            [
+                "21d516aaec6f5d6c"
+            ]
+        ]
+    },
+    {
+        "id": "62d9faddafaa0065",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "C8F09EB21F7C",
+        "payloadType": "str",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f84f4c59927ca5a8",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "C8F09EB99084",
+        "payloadType": "str",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb601227cbd33953",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "C8F09EB98A48",
+        "payloadType": "str",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0d54f89229664f4b",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "C8F09EB1DFB0",
+        "payloadType": "str",
+        "x": 470,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "36bfd7976e61cde3",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "C8F09EB9904C",
+        "payloadType": "str",
+        "x": 470,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eaf54a8899f765f6",
+        "type": "inject",
+        "z": "cf6d18f05c591beb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "C8F09EB98A5C",
+        "payloadType": "str",
+        "x": 470,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cc6b874d12b8c43d",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "1",
+        "info": "",
+        "x": 290,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "9b10d1cfe4600ade",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "2",
+        "info": "",
+        "x": 290,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3f0b5d9c0134bfd2",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "3",
+        "info": "",
+        "x": 290,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "81a8ac201f84bc9a",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "4",
+        "info": "",
+        "x": 630,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "8c1430e3589b0f67",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "5",
+        "info": "",
+        "x": 630,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "264b129d4afe72e5",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "6",
+        "info": "",
+        "x": 630,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "1ad41552f59769ab",
+        "type": "comment",
+        "z": "cf6d18f05c591beb",
+        "name": "Connecteu el vostre",
+        "info": "",
+        "x": 310,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "a703608ae0d8696c",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.emqx.io",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
